@@ -6,9 +6,12 @@ import { AppLoading } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import RegistrationScreen from './src/screens/auth/RegistrationScreen';
 import LoginScreen from './src/screens/auth/LoginScreen';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import { View } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 SplashScreen.preventAutoHideAsync();
+const AuthStack = createNativeStackNavigator();
 
 // const loadApplication = async () => {
 //   await Font.loadAsync({
@@ -59,12 +62,26 @@ export default function App() {
   // }
 
   return (
-    // <Provider>
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <RegistrationScreen />
-      {/* <LoginScreen /> */}
-      <StatusBar style="auto" />
-    </View>
-    // </Provider>
+    <NavigationContainer>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <AuthStack.Navigator>
+          <AuthStack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="Login"
+            component={LoginScreen}
+          />
+          <AuthStack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="Registration"
+            component={RegistrationScreen}
+          />
+        </AuthStack.Navigator>
+        <StatusBar style="auto" />
+      </View>
+    </NavigationContainer>
   );
 }

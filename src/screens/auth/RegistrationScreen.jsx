@@ -23,7 +23,7 @@ const initialFormData = {
   password: '',
 };
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({ navigation }) => {
   const [formData, setFormData] = useState(initialFormData);
   const [avatar, setAvatar] = useState(null);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
@@ -159,7 +159,11 @@ const RegistrationScreen = () => {
                       <Text style={styles.signUpBtnTitle}>Sign up</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ marginTop: 16 }} activeOpacity={0.7} onPress={null}>
+                    <TouchableOpacity
+                      style={{ marginTop: 16 }}
+                      activeOpacity={0.7}
+                      onPress={() => navigation.navigate('Login')}
+                    >
                       <Text style={styles.loginNavBtnTitle}>Already have an account? Log in</Text>
                     </TouchableOpacity>
                   </>

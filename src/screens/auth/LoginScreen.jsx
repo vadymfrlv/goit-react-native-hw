@@ -21,7 +21,7 @@ const initialFormData = {
   password: '',
 };
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [formData, setFormData] = useState(initialFormData);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isSecureEntry, setIsSecureEntry] = useState(true);
@@ -108,7 +108,11 @@ const LoginScreen = () => {
                       <Text style={styles.signUpBtnTitle}>Log in</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ marginTop: 16 }} activeOpacity={0.7} onPress={null}>
+                    <TouchableOpacity
+                      style={{ marginTop: 16 }}
+                      activeOpacity={0.7}
+                      onPress={() => navigation.navigate('Registration')}
+                    >
                       <Text style={styles.signUpNavBtnTitle}>Don't have an account? Sign up</Text>
                     </TouchableOpacity>
                   </>
