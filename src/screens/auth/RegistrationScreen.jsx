@@ -28,13 +28,13 @@ const RegistrationScreen = () => {
   const [avatar, setAvatar] = useState(null);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isSecureEntry, setIsSecureEntry] = useState(true);
-  const [dimensions, setDimensions] = useState(Dimensions.get('window').width - 20 * 2);
+  const [dimensions, setDimensions] = useState(Dimensions.get('window').width - 16 * 2);
 
   // const dispatch = useDispatch();
 
   useEffect(() => {
     const onChange = () => {
-      const width = Dimensions.get('window').width - 20 * 2;
+      const width = Dimensions.get('window').width - 16 * 2;
       setDimensions(width);
     };
     const dimensionsSubscription = Dimensions.addEventListener('change', onChange);
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   form: {
-    marginHorizontal: 20,
+    marginHorizontal: 16,
     paddingTop: 80,
   },
   title: {
