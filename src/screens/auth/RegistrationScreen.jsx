@@ -9,10 +9,9 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   Dimensions,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
@@ -38,9 +37,10 @@ const RegistrationScreen = () => {
       const width = Dimensions.get('window').width - 20 * 2;
       setDimensions(width);
     };
-    Dimensions.addEventListener('change', onChange);
+    const dimensionsSubscription = Dimensions.addEventListener('change', onChange);
+
     return () => {
-      Dimensions.removeEventListener('change', onChange);
+      dimensionsSubscription?.remove();
     };
   }, []);
 
@@ -71,98 +71,104 @@ const RegistrationScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={styles.container}>
-        <ImageBackground
-          style={styles.bgImg}
-          source={require('../../../assets/images/bg/mainBg.jpg')}
-        >
-          <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-            <View style={styles.formWrapper}>
-              <View style={{ ...styles.form, marginBottom: isShowKeyboard ? 32 : 78 }}>
-                <View style={styles.avatarWrapper}>
-                  <View style={{ overflow: 'hidden', borderRadius: 16 }}>
-                    <ImageBackground
-                      style={styles.avatar}
-                      source={require('../../../assets/images/user/defaultAvatar.jpg')}
-                    >
-                      {avatar && <Image style={styles.avatar} source={{ uri: avatar }} />}
-                    </ImageBackground>
-                  </View>
-                  {avatar ? (
-                    <TouchableOpacity
-                      style={{ ...styles.avatarBtn, borderColor: '#BDBDBD' }}
-                      onPress={deleteAvatar}
-                    >
-                      <MaterialIcons name="close" size={26} color="#BDBDBD" />
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity style={styles.avatarBtn} onPress={pickAvatar}>
-                      <MaterialIcons name="add" size={26} color="#FF6C00" />
-                    </TouchableOpacity>
-                  )}
+      <ImageBackground
+        style={styles.bgImg}
+        source={require('../../../assets/images/bg/mainBg.jpg')}
+      >
+        <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+          <View style={styles.formWrapper}>
+            <View
+              style={{
+                ...styles.form,
+                marginBottom: isShowKeyboard ? 32 : 78,
+                width: dimensions,
+              }}
+            >
+              <View style={styles.avatarWrapper}>
+                <View style={{ overflow: 'hidden', borderRadius: 16 }}>
+                  <ImageBackground
+                    style={styles.avatar}
+                    source={require('../../../assets/images/user/defaultAvatar.jpg')}
+                  >
+                    {avatar && <Image style={styles.avatar} source={{ uri: avatar }} />}
+                  </ImageBackground>
                 </View>
-
-                <Text style={styles.title}>Registration</Text>
-                <View style={{ position: 'relative' }}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Name"
-                    value={formData.name}
-                    onFocus={() => setIsShowKeyboard(true)}
-                    onChangeText={value =>
-                      setFormData(prevFormData => ({ ...prevFormData, name: value }))
-                    }
-                  />
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Email"
-                    value={formData.email}
-                    onFocus={() => setIsShowKeyboard(true)}
-                    onChangeText={value =>
-                      setFormData(prevFormData => ({ ...prevFormData, email: value }))
-                    }
-                  />
-                  <TextInput
-                    style={{ ...styles.input, marginBottom: 0 }}
-                    placeholder="Password"
-                    value={formData.password}
-                    secureTextEntry={isSecureEntry}
-                    onFocus={() => setIsShowKeyboard(true)}
-                    onChangeText={value =>
-                      setFormData(prevFormData => ({ ...prevFormData, password: value }))
-                    }
-                  />
-                  {formData.password && (
-                    <TouchableOpacity
-                      style={styles.showPasswordBtn}
-                      activeOpacity={0.7}
-                      onPress={toggleSecureEntry}
-                    >
-                      {isSecureEntry ? (
-                        <Ionicons name="eye" size={30} color="#BDBDBD" />
-                      ) : (
-                        <Ionicons name="eye-off" size={30} color="#BDBDBD" />
-                      )}
-                    </TouchableOpacity>
-                  )}
-                </View>
-
-                <View>
-                  <TouchableOpacity style={styles.signUpBtn} activeOpacity={0.7} onPress={null}>
-                    <Text style={styles.signUpBtnTitle}>Sign up</Text>
+                {avatar ? (
+                  <TouchableOpacity
+                    style={{ ...styles.avatarBtn, borderColor: '#BDBDBD' }}
+                    onPress={deleteAvatar}
+                  >
+                    <MaterialIcons name="close" size={26} color="#BDBDBD" />
                   </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity style={styles.avatarBtn} onPress={pickAvatar}>
+                    <MaterialIcons name="add" size={26} color="#FF6C00" />
+                  </TouchableOpacity>
+                )}
+              </View>
 
-                  {!isShowKeyboard && (
+              <Text style={styles.title}>Sign up</Text>
+              <View style={{ position: 'relative' }}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Name"
+                  value={formData.name}
+                  onFocus={() => setIsShowKeyboard(true)}
+                  onChangeText={value =>
+                    setFormData(prevFormData => ({ ...prevFormData, name: value }))
+                  }
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  value={formData.email}
+                  onFocus={() => setIsShowKeyboard(true)}
+                  onChangeText={value =>
+                    setFormData(prevFormData => ({ ...prevFormData, email: value }))
+                  }
+                />
+                <TextInput
+                  style={{ ...styles.input, marginBottom: 0 }}
+                  placeholder="Password"
+                  value={formData.password}
+                  secureTextEntry={isSecureEntry}
+                  onFocus={() => setIsShowKeyboard(true)}
+                  onChangeText={value =>
+                    setFormData(prevFormData => ({ ...prevFormData, password: value }))
+                  }
+                />
+                {formData.password && (
+                  <TouchableOpacity
+                    style={styles.showPasswordBtn}
+                    activeOpacity={0.7}
+                    onPress={toggleSecureEntry}
+                  >
+                    {isSecureEntry ? (
+                      <Ionicons name="eye" size={30} color="#BDBDBD" />
+                    ) : (
+                      <Ionicons name="eye-off" size={30} color="#BDBDBD" />
+                    )}
+                  </TouchableOpacity>
+                )}
+              </View>
+
+              <View>
+                {!isShowKeyboard && (
+                  <>
+                    <TouchableOpacity style={styles.signUpBtn} activeOpacity={0.7} onPress={null}>
+                      <Text style={styles.signUpBtnTitle}>Sign up</Text>
+                    </TouchableOpacity>
+
                     <TouchableOpacity style={{ marginTop: 16 }} activeOpacity={0.7} onPress={null}>
                       <Text style={styles.loginNavBtnTitle}>Already have an account? Log in</Text>
                     </TouchableOpacity>
-                  )}
-                </View>
+                  </>
+                )}
               </View>
             </View>
-          </KeyboardAvoidingView>
-        </ImageBackground>
-      </View>
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     </TouchableWithoutFeedback>
   );
 };
@@ -170,10 +176,6 @@ const RegistrationScreen = () => {
 export default RegistrationScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-  },
   bgImg: {
     flex: 1,
     resizeMode: 'cover',
@@ -187,7 +189,7 @@ const styles = StyleSheet.create({
   avatarWrapper: {
     position: 'absolute',
     alignSelf: 'center',
-    top: -60,
+    top: -65,
     zIndex: 100,
   },
   avatar: {
@@ -209,13 +211,13 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   form: {
-    marginHorizontal: 16,
+    marginHorizontal: 20,
     paddingTop: 80,
   },
   title: {
-    marginBottom: 33,
+    marginBottom: 32,
     fontFamily: 'Roboto-Medium',
-    fontSize: 24,
+    fontSize: 30,
     textAlign: 'center',
     textTransform: 'uppercase',
     color: '#212121',
