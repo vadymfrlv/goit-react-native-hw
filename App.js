@@ -1,17 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Provider } from 'react-redux';
+// import { Provider } from 'react-redux';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { AppLoading } from 'expo';
+// import { AppLoading } from 'expo';
 import { StatusBar } from 'expo-status-bar';
-import RegistrationScreen from './src/screens/auth/RegistrationScreen';
-import LoginScreen from './src/screens/auth/LoginScreen';
 import { View } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
+import useRoute from './router';
+
 SplashScreen.preventAutoHideAsync();
-const AuthStack = createNativeStackNavigator();
 
 // const loadApplication = async () => {
 //   await Font.loadAsync({
@@ -23,6 +21,8 @@ const AuthStack = createNativeStackNavigator();
 
 export default function App() {
   const [isAppReady, setIsAppReady] = useState(false);
+
+  const routing = useRoute(false);
 
   useEffect(() => {
     async function prepare() {
@@ -62,26 +62,9 @@ export default function App() {
   // }
 
   return (
-    <NavigationContainer>
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <AuthStack.Navigator>
-          <AuthStack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="Login"
-            component={LoginScreen}
-          />
-          <AuthStack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="Registration"
-            component={RegistrationScreen}
-          />
-        </AuthStack.Navigator>
-        <StatusBar style="auto" />
-      </View>
-    </NavigationContainer>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <NavigationContainer>{routing}</NavigationContainer>
+      <StatusBar style="auto" />
+    </View>
   );
 }

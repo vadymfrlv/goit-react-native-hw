@@ -80,7 +80,7 @@ const RegistrationScreen = ({ navigation }) => {
             <View
               style={{
                 ...styles.form,
-                marginBottom: isShowKeyboard ? 32 : 78,
+                marginBottom: isShowKeyboard ? 85 : 78,
                 width: dimensions,
               }}
             >
