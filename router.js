@@ -1,12 +1,11 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
+import { HeaderBackButton } from '@react-navigation/elements';
+import { Octicons } from '@expo/vector-icons';
 
 import RegistrationScreen from './src/screens/auth/RegistrationScreen';
 import LoginScreen from './src/screens/auth/LoginScreen';
-import HomeScreen from './src/screens/main/Home';
 import PostsScreen from './src/screens/main/PostsScreen';
 import CreatePostsScreen from './src/screens/main/CreatePostsScreen';
 import ProfileScreen from './src/screens/main/ProfileScreen';
@@ -43,14 +42,32 @@ const useRoute = isAuth => {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarActiveBackgroundColor: '#FF6C00',
+        headerShown: true,
+        headerLeftContainerStyle: {
+          paddingLeft: 16,
+        },
+        headerRightContainerStyle: {
+          paddingRight: 16,
+        },
         tabBarStyle: {
-          alignItems: 'center',
+          height: 80,
+          paddingTop: 9,
+          borderTopWidth: 1,
+        },
+        headerStyle: {
+          borderBottomWidth: 1,
+          borderColor: '#8F8F8F',
+        },
+        headerTitleStyle: {
+          color: '#212121',
+          fontFamily: 'Roboto-Medium',
+          fontSize: 17,
         },
         tabBarItemStyle: {
-          marginHorizontal: 30,
-          marginTop: 2,
-          marginBottom: 2,
+          marginHorizontal: 35,
           borderRadius: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
         },
       }}
     >
@@ -58,9 +75,8 @@ const useRoute = isAuth => {
         name="Posts"
         component={PostsScreen}
         options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <Ionicons name="grid-outline" size={24} color={focused ? '#FFFFFF' : '#212121'} />
+          tabBarIcon: ({ focused, size }) => (
+            <Octicons name="apps" size={size} color={focused ? '#FFF' : '#8F8F8F'} />
           ),
         }}
       />
@@ -70,16 +86,17 @@ const useRoute = isAuth => {
         options={({ navigation }) => ({
           title: 'Create a post',
           headerLeft: () => (
-            <TouchableOpacity
-              style={{ marginLeft: 10 }}
-              onPress={() => navigation.navigate('Home')}
-            >
-              <Ionicons name="arrow-back" size={36} color="#BDBDBD" />
-            </TouchableOpacity>
+            <HeaderBackButton
+              onPress={() => navigation.navigate('Home', { screen: 'Posts' })}
+              backImage={() => <Octicons name="arrow-left" size={27} color="#8F8F8F" />}
+            />
           ),
-          tabBarIcon: ({ focused }) => (
-            <Ionicons name="add-outline" size={32} color={focused ? '#FFFFFF' : '#212121'} />
+          tabBarIcon: ({ focused, size }) => (
+            <Octicons name="plus" size={size} color={focused ? '#FFF' : '#8F8F8F'} />
           ),
+          //   tabBarStyle: {
+          //     display: 'none',
+          //   },
         })}
       />
       <MainTab.Screen
@@ -87,8 +104,8 @@ const useRoute = isAuth => {
         component={ProfileScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <Ionicons name="person-outline" size={24} color={focused ? '#FFFFFF' : '#212121'} />
+          tabBarIcon: ({ focused, size }) => (
+            <Octicons name="person" size={size} color={focused ? '#FFF' : '#8F8F8F'} />
           ),
         }}
       />

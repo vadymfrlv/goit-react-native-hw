@@ -41,11 +41,18 @@ const LoginScreen = ({ navigation }) => {
     };
   }, []);
 
+  const handleSubmit = () => {
+    console.log('click');
+    console.log(formData);
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+    // dispatch(authSignInUser(state));
+    setFormData(initialFormData);
+  };
+
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    console.log(formData);
-    setFormData(initialFormData);
   };
 
   const toggleSecureEntry = () => setIsSecureEntry(!isSecureEntry);
@@ -104,7 +111,11 @@ const LoginScreen = ({ navigation }) => {
               <View>
                 {!isShowKeyboard && (
                   <>
-                    <TouchableOpacity style={styles.signUpBtn} activeOpacity={0.7} onPress={null}>
+                    <TouchableOpacity
+                      style={styles.signUpBtn}
+                      activeOpacity={0.7}
+                      onPress={handleSubmit}
+                    >
                       <Text style={styles.signUpBtnTitle}>Log in</Text>
                     </TouchableOpacity>
 
