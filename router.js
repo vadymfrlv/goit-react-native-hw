@@ -76,7 +76,7 @@ const useRoute = isAuth => {
         component={PostsScreen}
         options={{
           tabBarIcon: ({ focused, size }) => (
-            <Octicons name="apps" size={size} color={focused ? '#FFF' : '#8F8F8F'} />
+            <Octicons name="apps" size={size} color={focused ? '#fff' : '#8F8F8F'} />
           ),
         }}
       />
@@ -92,7 +92,7 @@ const useRoute = isAuth => {
             />
           ),
           tabBarIcon: ({ focused, size }) => (
-            <Octicons name="plus" size={size} color={focused ? '#FFF' : '#8F8F8F'} />
+            <Octicons name="plus" size={size} color={focused ? '#fff' : '#8F8F8F'} />
           ),
           //   tabBarStyle: {
           //     display: 'none',
@@ -105,7 +105,7 @@ const useRoute = isAuth => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused, size }) => (
-            <Octicons name="person" size={size} color={focused ? '#FFF' : '#8F8F8F'} />
+            <Octicons name="person" size={size} color={focused ? '#fff' : '#8F8F8F'} />
           ),
         }}
       />
