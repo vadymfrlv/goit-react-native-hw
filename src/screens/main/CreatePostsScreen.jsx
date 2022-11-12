@@ -24,8 +24,8 @@ const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [location, setLocation] = useState(null);
-  const [address, setAddress] = useState(null);
-  const [addressValue, setAddressValue] = useState(null);
+  // const [address, setAddress] = useState(null);
+  // const [addressValue, setAddressValue] = useState(null);
   const [title, setTitle] = useState('');
   const [keyboardShown, setKeyboardShown] = useState(false);
 
@@ -122,7 +122,7 @@ const CreatePostsScreen = ({ navigation }) => {
                     color: '#BDBDBD',
                   }}
                 >
-                  Редактировать фото
+                  Edit photo
                 </Text>
               ) : (
                 <Text
@@ -132,21 +132,21 @@ const CreatePostsScreen = ({ navigation }) => {
                     color: '#BDBDBD',
                   }}
                 >
-                  Загрузите фото
+                  Upload photo
                 </Text>
               )}
             </View>
             <View style={styles.inputWrapper}>
               <TextInput
                 style={{ ...styles.input, marginBottom: 16 }}
-                placeholder="Название..."
+                placeholder="Name..."
                 onFocus={() => setKeyboardShown(true)}
                 value={title}
                 onChangeText={setTitle}
               />
               <TextInput
                 style={{ ...styles.input, paddingLeft: 30 }}
-                placeholder="Местность..."
+                placeholder="Location..."
                 editable={false}
                 onFocus={() => setKeyboardShown(true)}
                 value={addressValue && `${addressValue?.city}, ${addressValue?.name}`}
@@ -161,7 +161,7 @@ const CreatePostsScreen = ({ navigation }) => {
             </View>
             <View>
               <TouchableOpacity style={styles.sendButton} activeOpacity={0.8} onPress={sendPost}>
-                <Text style={styles.sendButtonTitle}>Опубликовать</Text>
+                <Text style={styles.sendButtonTitle}>Share</Text>
               </TouchableOpacity>
             </View>
           </View>
