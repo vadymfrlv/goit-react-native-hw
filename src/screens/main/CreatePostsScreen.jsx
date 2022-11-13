@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
 import {
   StyleSheet,
   Text,
@@ -156,7 +155,8 @@ const CreatePostsScreen = ({ navigation }) => {
                 activeOpacity={0.8}
                 onPress={() => setAddressValue(address)}
               >
-                <EvilIcons name="location" size={40} color="#BDBDBD" />
+                {/* <EvilIcons name="location" size={40} color="#BDBDBD" /> */}
+                <Octicons name="location" size={40} color="#BDBDBD" />
               </TouchableOpacity>
             </View>
             <View>
