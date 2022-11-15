@@ -18,20 +18,14 @@ import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 
 const CreatePostsScreen = ({ navigation }) => {
-  const initialPostData = {
-    photo: '',
-    description: '',
-    location: '',
-  };
-  const [postData, setPostData] = useState(initialPostData);
-
   const [type, setType] = useState(CameraType.back);
   const [camera, setCamera] = useState(null);
+
   const [photo, setPhoto] = useState(null);
+  const [description, setDescription] = useState('');
   const [location, setLocation] = useState(null);
-  const [address, setAddress] = useState(null);
-  const [addressValue, setAddressValue] = useState(null);
-  const [title, setTitle] = useState('');
+  const [place, setPlace] = useState(null);
+  const [placeValue, setPlaceValue] = useState(null);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   // const { userId, name } = useSelector(state => state.auth);
@@ -43,12 +37,12 @@ const CreatePostsScreen = ({ navigation }) => {
       await MediaLibrary.requestPermissionsAsync();
 
       const location = await Location.getCurrentPositionAsync({});
-      const address = await Location.reverseGeocodeAsync({
+      const place = await Location.reverseGeocodeAsync({
         longitude: location.coords.longitude,
         latitude: location.coords.latitude,
       });
       setLocation(location);
-      setAddress(...address);
+      setPlace(...place);
     })();
   }, []);
 
@@ -69,8 +63,12 @@ const CreatePostsScreen = ({ navigation }) => {
 
   const cancelPhoto = () => {
     setPhoto(null);
-    setTitle('');
-    setAddressValue(null);
+  };
+
+  const remove = () => {
+    setPhoto(null);
+    setDescription(null);
+    setPlace(null);
   };
 
   const sendPost = () => {
@@ -79,7 +77,7 @@ const CreatePostsScreen = ({ navigation }) => {
     navigation.navigate('Home');
     setPhoto(null);
     setTitle('');
-    setAddressValue(null);
+    setPlaceValue(null);
   };
 
   const keyboardHide = () => {
@@ -136,34 +134,53 @@ const CreatePostsScreen = ({ navigation }) => {
               style={{ ...styles.input, marginBottom: 16 }}
               placeholder="Description..."
               onFocus={() => setIsShowKeyboard(true)}
-              value={postData.description}
-              onChangeText={value =>
-                setPostData(prevPostData => ({ ...prevPostData, description: value }))
-              }
+              value={description}
+              onChangeText={setDescription}
             />
+
             <TextInput
               style={{ ...styles.input, paddingLeft: 28 }}
-              placeholder="Location..."
+              placeholder="Place..."
               editable={false}
-              onChangeText={value =>
-                setPostData(prevPostData => ({ ...prevPostData, location: value }))
-              }
-              onFocus={() => setIsShowKeyboard(true)}
-              value={addressValue && `${addressValue?.city}, ${addressValue?.country} `}
+              onChangeText={() => setPlaceValue(place)}
+              value={placeValue && `${placeValue?.city}, ${placeValue?.country}`}
             />
             <TouchableOpacity
-              style={{ position: 'absolute', top: 76, left: 5 }}
-              activeOpacity={0.8}
-              onPress={() => setAddressValue(address)}
+              style={{ position: 'absolute', top: 77, left: 16 }}
+              activeOpacity={0.7}
+              onPress={() => setPlaceValue(place)}
             >
-              <Octicons name="location" size={25} color="#BDBDBD" />
+              <Octicons name="location" size={25} color="#CECDCD" />
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={styles.sendButton} activeOpacity={0.8} onPress={sendPost}>
-              <Text style={styles.sendButtonTitle}>Share</Text>
+            <TouchableOpacity
+              style={{
+                ...styles.sendBtn,
+                backgroundColor: photo && description && place ? '#FF6C00' : '#F6F6F6',
+              }}
+              disabled={!photo || !description || !place}
+              activeOpacity={0.7}
+              onPress={sendPost}
+            >
+              <Text
+                style={{
+                  ...styles.sendBtnTitle,
+                  color: photo && description && place ? '#fff' : '#BDBDBD',
+                }}
+              >
+                Share
+              </Text>
             </TouchableOpacity>
           </View>
+          <TouchableOpacity
+            style={styles.remove}
+            disabled={!photo && !description && !place}
+            activeOpacity={0.7}
+            onPress={remove}
+          >
+            <Octicons name="trash" size={30} color="#BDBDBD" />
+          </TouchableOpacity>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     </View>
@@ -228,21 +245,30 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E8E8E8',
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
-    color: '#212121',
+    color: '#656565',
   },
-  sendButton: {
+  sendBtn: {
     justifyContent: 'center',
     alignItems: 'center',
     height: 50,
     marginHorizontal: 16,
     marginTop: 50,
-    marginBottom: 40,
-    backgroundColor: '#FF6C00',
+    marginBottom: 50,
+    marginBottom: 120,
     borderRadius: 100,
   },
-  sendButtonTitle: {
+  sendBtnTitle: {
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
-    color: '#fff',
+  },
+  remove: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    width: 80,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: 20,
+    backgroundColor: '#F6F6F6',
   },
 });

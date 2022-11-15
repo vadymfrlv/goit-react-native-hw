@@ -87,16 +87,16 @@ const useRoute = isAuth => {
           title: 'Create a post',
           headerLeft: () => (
             <HeaderBackButton
-              onPress={() => navigation.navigate('Home', { screen: 'Posts' })}
+              onPress={() => navigation.navigate('Posts', { screen: 'Posts' })}
               backImage={() => <Octicons name="arrow-left" size={27} color="#8F8F8F" />}
             />
           ),
           tabBarIcon: ({ focused, size }) => (
             <Octicons name="plus" size={size} color={focused ? '#fff' : '#8F8F8F'} />
           ),
-          //   tabBarStyle: {
-          //     display: 'none',
-          //   },
+          tabBarStyle: {
+            display: 'none',
+          },
         })}
       />
       <MainTab.Screen
