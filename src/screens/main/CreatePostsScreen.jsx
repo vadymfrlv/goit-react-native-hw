@@ -12,20 +12,28 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Octicons, MaterialIcons, EvilIcons } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 
-const CreatePostsScreen = ({ navigation }) => {
-  const [type, setType] = useState(CameraType.back);
-  const [camera, setCamera] = useState(null);
+const initialPostData = {
+  photo: '',
+  description: '',
+  place: '',
+};
 
-  const [photo, setPhoto] = useState(null);
-  const [description, setDescription] = useState('');
+const CreatePostsScreen = ({ navigation }) => {
+  const [postData, setPostData] = useState(initialPostData);
+
+  const [camera, setCamera] = useState(null);
   const [location, setLocation] = useState(null);
-  const [place, setPlace] = useState(null);
-  const [placeValue, setPlaceValue] = useState(null);
+  const [type, setType] = useState(CameraType.back);
+  // const [photo, setPhoto] = useState(null);
+  // const [description, setDescription] = useState('');
+  // const [place, setPlace] = useState(null);
+  const [isPostDataReady, setIsPostDataReady] = useState(true);
+  const [isDisableTrash, setIsDisableTrash] = useState(true);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   // const { userId, name } = useSelector(state => state.auth);
@@ -33,51 +41,56 @@ const CreatePostsScreen = ({ navigation }) => {
   useEffect(() => {
     (async () => {
       await Camera.requestCameraPermissionsAsync();
-      await Location.requestForegroundPermissionsAsync();
       await MediaLibrary.requestPermissionsAsync();
 
-      const location = await Location.getCurrentPositionAsync({});
-      const place = await Location.reverseGeocodeAsync({
-        longitude: location.coords.longitude,
-        latitude: location.coords.latitude,
-      });
-      setLocation(location);
-      setPlace(...place);
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Permission to access location was denied');
+      }
+
+      let locationRes = await Location.getCurrentPositionAsync({});
+      setLocation(locationRes);
     })();
   }, []);
+
+  useEffect(() => {
+    const postDataReady = Object.values(postData).every(value => value !== '');
+    setIsPostDataReady(!postDataReady);
+
+    const isPostDataToRemove = Object.values(postData).some(value => value !== '');
+    setIsDisableTrash(!isPostDataToRemove);
+  }, [postData]);
+
+  const handleInput = (type, value) => {
+    setPostData(prevState => ({ ...prevState, [type]: value }));
+  };
 
   const toggleCameraType = () => {
     setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
   };
 
   const takePhoto = async () => {
-    if (!camera) return;
     try {
       const photo = await camera.takePictureAsync();
       await MediaLibrary.createAssetAsync(photo.uri);
-      setPhoto(photo.uri);
+      setPostData(prevState => ({ ...prevState, photo: photo.uri }));
     } catch (error) {
       console.log(error);
     }
   };
 
-  const cancelPhoto = () => {
-    setPhoto(null);
+  const retakePhoto = () => {
+    setPostData(prevState => ({ ...prevState, photo: '' }));
   };
 
-  const remove = () => {
-    setPhoto(null);
-    setDescription(null);
-    setPlace(null);
+  const removeAll = () => {
+    setPostData(initialPostData);
   };
 
   const sendPost = () => {
-    if (!photo || !title || !addressValue) return;
     // createPost();
-    navigation.navigate('Home');
-    setPhoto(null);
-    setTitle('');
-    setPlaceValue(null);
+    navigation.navigate('Posts');
+    setPostData(initialPostData);
   };
 
   const keyboardHide = () => {
@@ -89,12 +102,12 @@ const CreatePostsScreen = ({ navigation }) => {
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={keyboardHide}>
         <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-          {photo ? (
+          {postData.photo ? (
             <View style={styles.photoContainer}>
-              <TouchableOpacity style={styles.retakePhotoBtn} onPress={cancelPhoto}>
+              <TouchableOpacity style={styles.retakePhotoBtn} onPress={retakePhoto}>
                 <Octicons name="x" size={45} color="#F6F6F6" />
               </TouchableOpacity>
-              <Image style={styles.photo} source={{ uri: photo }} />
+              <Image style={styles.photo} source={{ uri: postData.photo }} />
             </View>
           ) : (
             <Camera style={styles.camera} type={type} flashMode="auto" ref={ref => setCamera(ref)}>
@@ -107,7 +120,7 @@ const CreatePostsScreen = ({ navigation }) => {
             </Camera>
           )}
           <View style={{ marginTop: 8, marginHorizontal: 16 }}>
-            {photo ? (
+            {postData.photo ? (
               <Text
                 style={{
                   fontFamily: 'Roboto-Regular',
@@ -115,7 +128,7 @@ const CreatePostsScreen = ({ navigation }) => {
                   color: '#BDBDBD',
                 }}
               >
-                Edit photo
+                Reshot
               </Text>
             ) : (
               <Text
@@ -134,39 +147,36 @@ const CreatePostsScreen = ({ navigation }) => {
               style={{ ...styles.input, marginBottom: 16 }}
               placeholder="Description..."
               onFocus={() => setIsShowKeyboard(true)}
-              value={description}
-              onChangeText={setDescription}
+              value={postData.description}
+              onChangeText={value => handleInput('description', value)}
             />
-
             <TextInput
               style={{ ...styles.input, paddingLeft: 28 }}
               placeholder="Place..."
-              editable={false}
-              onChangeText={() => setPlaceValue(place)}
-              value={placeValue && `${placeValue?.city}, ${placeValue?.country}`}
+              onFocus={() => setIsShowKeyboard(true)}
+              value={postData.place}
+              onChangeText={value => handleInput('place', value)}
             />
-            <TouchableOpacity
-              style={{ position: 'absolute', top: 77, left: 16 }}
-              activeOpacity={0.7}
-              onPress={() => setPlaceValue(place)}
-            >
-              <Octicons name="location" size={25} color="#CECDCD" />
-            </TouchableOpacity>
+            <Octicons
+              name="location"
+              size={25}
+              style={{ position: 'absolute', top: 77, left: 16, color: '#CECDCD' }}
+            />
           </View>
           <View>
             <TouchableOpacity
               style={{
                 ...styles.sendBtn,
-                backgroundColor: photo && description && place ? '#FF6C00' : '#F6F6F6',
+                backgroundColor: !isPostDataReady ? '#FF6C00' : '#F6F6F6',
               }}
-              disabled={!photo || !description || !place}
+              disabled={isPostDataReady}
               activeOpacity={0.7}
               onPress={sendPost}
             >
               <Text
                 style={{
                   ...styles.sendBtnTitle,
-                  color: photo && description && place ? '#fff' : '#BDBDBD',
+                  color: !isPostDataReady ? '#fff' : '#BDBDBD',
                 }}
               >
                 Share
@@ -174,10 +184,10 @@ const CreatePostsScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            style={styles.remove}
-            disabled={!photo && !description && !place}
+            style={styles.removeAll}
+            disabled={isDisableTrash}
             activeOpacity={0.7}
-            onPress={remove}
+            onPress={removeAll}
           >
             <Octicons name="trash" size={30} color="#BDBDBD" />
           </TouchableOpacity>
@@ -261,13 +271,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
   },
-  remove: {
+  removeAll: {
     justifyContent: 'center',
     alignItems: 'center',
     height: 50,
     width: 80,
     marginLeft: 'auto',
     marginRight: 'auto',
+    marginBottom: 30,
     borderRadius: 20,
     backgroundColor: '#F6F6F6',
   },
