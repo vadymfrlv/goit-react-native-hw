@@ -1,77 +1,64 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { TouchableOpacity } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Octicons, Entypo, Ionicons } from '@expo/vector-icons';
+
+import HomeScreen from '../nested/HomeScreen';
+// import CommentsScreen from '../nested/CommentsScreen';
+import MapScreen from '../nested/MapScreen';
+
+// import { authLogout } from '../../redux/auth/authOperations';
+
+const NestedStack = createStackNavigator();
 
 const PostsScreen = () => {
+  // const dispatch = useDispatch();
+
+  // const logout = () => dispatch(authLogout());
+
   return (
-    <View style={styles.container}>
-      <Text>PostsScreen</Text>
-    </View>
+    <NestedStack.Navigator>
+      <NestedStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          title: 'Posts',
+          headerRight: () => (
+            // <TouchableOpacity style={{ marginRight: 10 }} onPress={logout}>
+            <TouchableOpacity style={{ marginRight: 16 }} onPress={null}>
+              <Octicons name="sign-out" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      {/* <NestedStack.Screen
+        name="Comments"
+        component={CommentsScreen}
+        options={({ navigation }) => ({
+          title: 'Comments',
+          headerLeft: () => (
+            <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={36} color="#BDBDBD" />
+              <Octicons name="arrow-left" size={27} color="#8F8F8F" />
+            </TouchableOpacity>
+          ),
+        })}
+      /> */}
+      <NestedStack.Screen
+        name="Map"
+        component={MapScreen}
+        options={({ navigation }) => ({
+          title: 'Map',
+          headerLeft: () => (
+            <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.goBack()}>
+              {/* <Ionicons name="arrow-back" size={36} color="#BDBDBD" /> */}
+              <Octicons name="arrow-left" size={27} color="#8F8F8F" />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+    </NestedStack.Navigator>
   );
 };
 
 export default PostsScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
-
-//TODO MAP
-// import React, { useState, useEffect } from 'react';
-// import { View, Text, StyleSheet, Dimensions } from 'react-native';
-// import MapView, { Marker } from 'react-native-maps';
-// import * as Location from 'expo-location';
-
-// const Home = () => {
-//   const [location, setLocation] = useState(null);
-
-//   useEffect(() => {
-//     (async () => {
-//       let { status } = await Location.requestForegroundPermissionsAsync();
-//       if (status !== 'granted') {
-//         console.log('Permission to access location was denied');
-//       }
-
-//       let location = await Location.getCurrentPositionAsync({});
-//       const coords = {
-//         latitude: location.coords.latitude,
-//         longitude: location.coords.longitude,
-//       };
-//       setLocation(coords);
-//     })();
-//   }, []);
-
-//   return (
-//     <View style={styles.container}>
-//       <MapView
-//         style={styles.mapStyle}
-//         region={{
-//           ...location,
-//           latitudeDelta: 0.0922,
-//           longitudeDelta: 0.0421,
-//         }}
-//         showsUserLocation={true}
-//       >
-//         {location && <Marker title="I am here" coordinate={location} description="Hello" />}
-//       </MapView>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   mapStyle: {
-//     width: Dimensions.get('window').width,
-//     height: Dimensions.get('window').height,
-//   },
-// });
-
-// export default Home;

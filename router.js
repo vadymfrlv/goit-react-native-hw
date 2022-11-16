@@ -75,6 +75,7 @@ const useRoute = isAuth => {
         name="Posts"
         component={PostsScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused, size }) => (
             <Octicons name="apps" size={size} color={focused ? '#fff' : '#8F8F8F'} />
           ),
