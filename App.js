@@ -5,10 +5,9 @@ import * as SplashScreen from 'expo-splash-screen';
 // import { AppLoading } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 
 import { store } from './redux/store';
-import useRoute from './router';
+import Main from './components/Main';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -23,9 +22,6 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
   const [isAppReady, setIsAppReady] = useState(false);
 
-  // const routing = useRoute(false);
-  const routing = useRoute(true);
-
   useEffect(() => {
     async function prepare() {
       try {
@@ -35,7 +31,7 @@ export default function App() {
           'Roboto-Bold': require('./assets/fonts/Roboto-Bold.ttf'),
         });
       } catch (error) {
-        console.warn(error);
+        console.log(error);
       } finally {
         setIsAppReady(true);
       }
@@ -66,7 +62,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <NavigationContainer>{routing}</NavigationContainer>
+        <Main />
         <StatusBar style="auto" />
       </View>
     </Provider>

@@ -7,14 +7,14 @@ import HomeScreen from '../nested/HomeScreen';
 // import CommentsScreen from '../nested/CommentsScreen';
 import MapScreen from '../nested/MapScreen';
 
-// import { authLogout } from '../../redux/auth/authOperations';
+import { authLogoutUser } from '../../../redux/auth/authOperations';
 
 const NestedStack = createStackNavigator();
 
 const PostsScreen = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // const logout = () => dispatch(authLogout());
+  const logout = () => dispatch(authLogoutUser());
 
   return (
     <NestedStack.Navigator>
@@ -24,8 +24,7 @@ const PostsScreen = () => {
         options={{
           title: 'Posts',
           headerRight: () => (
-            // <TouchableOpacity style={{ marginRight: 10 }} onPress={logout}>
-            <TouchableOpacity style={{ marginRight: 16 }} onPress={null}>
+            <TouchableOpacity style={{ marginRight: 10 }} onPress={logout}>
               <Octicons name="sign-out" size={24} color="#BDBDBD" />
             </TouchableOpacity>
           ),

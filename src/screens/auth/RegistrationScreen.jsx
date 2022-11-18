@@ -13,9 +13,10 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+
+import { authSignUpUser, authAvatarChange } from '../../../redux/auth/authOperations';
 
 const initialFormData = {
   name: '',
@@ -30,7 +31,7 @@ const RegistrationScreen = ({ navigation }) => {
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [dimensions, setDimensions] = useState(Dimensions.get('window').width - 16 * 2);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const onChange = () => {
@@ -44,13 +45,16 @@ const RegistrationScreen = ({ navigation }) => {
     };
   }, []);
 
-  const handleSubmit = () => {
-    console.log('click');
-    console.log(formData);
+  const handleSubmit = async () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    // dispatch(authSignInUser(state));
+    dispatch(authSignUpUser(formData));
     setFormData(initialFormData);
+
+    if (avatar) {
+      const avatarUri = await uploadAvatarToServer(avatar);
+      dispatch(authAvatarChange(avatarUri));
+    }
   };
 
   const keyboardHide = () => {

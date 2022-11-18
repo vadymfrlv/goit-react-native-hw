@@ -13,8 +13,9 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
+
+import { authLogInUser } from '../../../redux/auth/authOperations';
 
 const initialFormData = {
   email: '',
@@ -27,7 +28,7 @@ const LoginScreen = ({ navigation }) => {
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [dimensions, setDimensions] = useState(Dimensions.get('window').width - 20 * 2);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const onChange = () => {
@@ -42,11 +43,9 @@ const LoginScreen = ({ navigation }) => {
   }, []);
 
   const handleSubmit = () => {
-    console.log('click');
-    console.log(formData);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    // dispatch(authSignInUser(state));
+    dispatch(authLogInUser(formData));
     setFormData(initialFormData);
   };
 

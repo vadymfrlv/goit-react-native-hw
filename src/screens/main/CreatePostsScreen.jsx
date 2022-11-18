@@ -48,8 +48,8 @@ const CreatePostsScreen = ({ navigation }) => {
         console.log('Permission to access location was denied');
       }
 
-      let locationRes = await Location.getCurrentPositionAsync({});
-      setLocation(locationRes);
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
     })();
   }, []);
 
