@@ -1,6 +1,4 @@
-This app is a social network with photos. ❗️The app was tested on iOS devices with a screen size of
-6.46 inches. ⚡️Firebase was used for this app to login/sign up, as well as to store comments,
-photos etc.
+### This app is a social network with photos. The app was tested on iOS devices with a screen size of 6.46 inches❗️ Firebase was used for this app to login/sign up, as well as to store comments, photos etc⚡️
 
 When the application starts, custom fonts are loaded. A user gets to the "login" screen but if user
 is not registered yet - the user can switch to the "registration" screen. During registration the
