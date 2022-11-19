@@ -16,7 +16,8 @@ import {
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
-import { authSignUpUser, authAvatarChange } from '../../../redux/auth/authOperations';
+import db from '../../../firebase/config';
+import { authSignUpUser, authAvatarChangeUser } from '../../../redux/auth/authOperations';
 
 const initialFormData = {
   name: '',
@@ -45,23 +46,6 @@ const RegistrationScreen = ({ navigation }) => {
     };
   }, []);
 
-  const handleSubmit = async () => {
-    setIsShowKeyboard(false);
-    Keyboard.dismiss();
-    dispatch(authSignUpUser(formData));
-    setFormData(initialFormData);
-
-    if (avatar) {
-      const avatarUri = await uploadAvatarToServer(avatar);
-      dispatch(authAvatarChange(avatarUri));
-    }
-  };
-
-  const keyboardHide = () => {
-    setIsShowKeyboard(false);
-    Keyboard.dismiss();
-  };
-
   const pickAvatar = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -76,6 +60,33 @@ const RegistrationScreen = ({ navigation }) => {
 
   const deleteAvatar = async () => {
     setAvatar(null);
+  };
+
+  const uploadAvatarToServer = async photo => {
+    const response = await fetch(photo);
+    const file = await response.blob();
+    const avatarId = Date.now().toString();
+    await db.storage().ref(`avatars/${avatarId}`).put(file);
+
+    const processedAvatar = await db.storage().ref('avatars').child(avatarId).getDownloadURL();
+    return processedAvatar;
+  };
+
+  const handleSubmit = async () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+    dispatch(authSignUpUser(formData));
+    setFormData(initialFormData);
+
+    if (avatar) {
+      const avatarUri = await uploadAvatarToServer(avatar);
+      dispatch(authAvatarChangeUser(avatarUri));
+    }
+  };
+
+  const keyboardHide = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
   };
 
   const toggleSecureEntry = () => setIsSecureEntry(!isSecureEntry);

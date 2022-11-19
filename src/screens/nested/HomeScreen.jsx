@@ -10,58 +10,58 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
-// import db from '../../firebase/config';
+import db from '../../../firebase/config';
 
 const HomeScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
 
-  // const { name, email, avatar } = useSelector(state => state.auth);
+  const { name, email, avatar } = useSelector(state => state.auth);
 
-  // useEffect(() => {
-  //   getAllPosts();
-  // }, []);
+  useEffect(() => {
+    getAllPosts();
+  }, []);
 
-  // const getAllPosts = async () => {
-  //   await db
-  //     .firestore()
-  //     .collection('posts')
-  //     .onSnapshot(data =>
-  //       setPosts(
-  //         data.docs
-  //           .map(doc => ({ ...doc.data(), id: doc.id }))
-  //           .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-  //       )
-  //     );
-  // };
+  const getAllPosts = async () => {
+    await db
+      .firestore()
+      .collection('posts')
+      .onSnapshot(data =>
+        setPosts(
+          data.docs
+            .map(doc => ({ ...doc.data(), id: doc.id }))
+            .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+        )
+      );
+  };
 
-  // const createLike = async postId => {
-  //   const data = await db.firestore().collection('posts').doc(postId).get();
-  //   const { likes } = data.data();
-  //   await db
-  //     .firestore()
-  //     .collection('posts')
-  //     .doc(postId)
-  //     .update({ likes: (likes ? likes : 0) + 1 });
-  // };
+  const createLike = async postId => {
+    const data = await db.firestore().collection('posts').doc(postId).get();
+    const { likes } = data.data();
+    await db
+      .firestore()
+      .collection('posts')
+      .doc(postId)
+      .update({ likes: (likes ? likes : 0) + 1 });
+  };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.avatarWrapper}
         activeOpacity={0.8}
-        // onPress={() => navigation.navigate('User')}
+        onPress={() => navigation.navigate('User')}
       >
         <View style={{ overflow: 'hidden', borderRadius: 16 }}>
           <ImageBackground
             style={styles.avatar}
             source={require('../../../assets/images/user/defaultAvatar.jpg')}
           >
-            {/* {avatar && <Image style={styles.avatar} source={{ uri: avatar }} />} */}
+            {avatar && <Image style={styles.avatar} source={{ uri: avatar }} />}
           </ImageBackground>
         </View>
         <View style={styles.userInfoWrapper}>
-          {/* <Text style={styles.userName}>{name}</Text>
-          <Text style={styles.userEmail}>{email}</Text> */}
+          <Text style={styles.userName}>{name}</Text>
+          <Text style={styles.userEmail}>{email}</Text>
         </View>
       </TouchableOpacity>
       <FlatList
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   userEmail: {
     fontFamily: 'Roboto-Regular',
     fontSize: 11,
-    color: 'rgba(33, 33, 33, 0.8)',
+    color: '#212121',
   },
   postContainer: {
     marginHorizontal: 16,

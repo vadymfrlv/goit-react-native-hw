@@ -17,6 +17,7 @@ export const authSignUpUser =
       const userUpdateProfile = {
         userId: uid,
         name: displayName,
+        email: user.email,
       };
 
       dispatch(updateUserProfile(userUpdateProfile));
