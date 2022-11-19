@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -36,7 +36,7 @@ const CreatePostsScreen = ({ navigation }) => {
   const [isDisableTrash, setIsDisableTrash] = useState(true);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
-  // const { userId, name } = useSelector(state => state.auth);
+  const { userId, name } = useSelector(state => state.auth);
 
   useEffect(() => {
     (async () => {
