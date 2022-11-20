@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Octicons, Entypo, Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from '../nested/HomeScreen';
-// import CommentsScreen from '../nested/CommentsScreen';
+import CommentsScreen from '../nested/CommentsScreen';
 import MapScreen from '../nested/MapScreen';
 
 import { authLogoutUser } from '../../../redux/auth/authOperations';
@@ -30,19 +30,19 @@ const PostsScreen = () => {
           ),
         }}
       />
-      {/* <NestedStack.Screen
+      <NestedStack.Screen
         name="Comments"
         component={CommentsScreen}
         options={({ navigation }) => ({
           title: 'Comments',
           headerLeft: () => (
             <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.goBack()}>
-              <Ionicons name="arrow-back" size={36} color="#BDBDBD" />
+              {/* <Ionicons name="arrow-back" size={36} color="#BDBDBD" /> */}
               <Octicons name="arrow-left" size={27} color="#8F8F8F" />
             </TouchableOpacity>
           ),
         })}
-      /> */}
+      />
       <NestedStack.Screen
         name="Map"
         component={MapScreen}

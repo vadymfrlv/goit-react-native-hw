@@ -75,7 +75,7 @@ const HomeScreen = ({ navigation }) => {
                 navigation.navigate('Comments', {
                   postId: item.id,
                   photo: item.photo,
-                  title: item.title,
+                  description: item.description,
                   allComments: item.comments,
                 })
               }
@@ -83,8 +83,8 @@ const HomeScreen = ({ navigation }) => {
               <Image style={styles.postImage} source={{ uri: item.photo }} />
             </TouchableOpacity>
             <View style={styles.postImageInfoWrapper}>
-              <Text style={styles.postImageTitle}>{item.title}</Text>
-              <Text style={styles.postImageAuthor}>Автор: {item.name}</Text>
+              <Text style={styles.postImageTitle}>{item.description}</Text>
+              <Text style={styles.postImageAuthor}> Author: {item.name}</Text>
             </View>
             <View style={styles.postInfoContainer}>
               <View style={{ flexDirection: 'row' }}>
@@ -95,7 +95,7 @@ const HomeScreen = ({ navigation }) => {
                     navigation.navigate('Comments', {
                       postId: item.id,
                       photo: item.photo,
-                      title: item.title,
+                      description: item.description,
                       allComments: item.comments,
                     })
                   }
@@ -126,9 +126,7 @@ const HomeScreen = ({ navigation }) => {
                 }
               >
                 <EvilIcons name="location" size={32} color="#BDBDBD" />
-                <Text style={styles.postInfoText}>
-                  {`${item.address?.city}, ${item.address?.country}`}
-                </Text>
+                <Text style={styles.postInfoText}>{item.place}</Text>
               </TouchableOpacity>
             </View>
           </View>

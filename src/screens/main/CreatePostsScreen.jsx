@@ -17,6 +17,8 @@ import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 
+import db from '../../../firebase/config';
+
 const initialPostData = {
   photo: '',
   description: '',
@@ -87,8 +89,31 @@ const CreatePostsScreen = ({ navigation }) => {
     setPostData(initialPostData);
   };
 
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(postData.photo);
+    const file = await response.blob();
+    const postId = Date.now().toString();
+    await db.storage().ref(`postImages/${postId}`).put(file);
+    const processedPhoto = await db.storage().ref('postImages').child(postId).getDownloadURL();
+    return processedPhoto;
+  };
+
+  const createPost = async () => {
+    const createdAt = new Date();
+    const photo = await uploadPhotoToServer();
+    await db.firestore().collection('posts').add({
+      photo,
+      description: postData.description,
+      place: postData.place,
+      location: location.coords,
+      userId,
+      name,
+      createdAt: createdAt.toLocaleString(),
+    });
+  };
+
   const sendPost = () => {
-    // createPost();
+    createPost();
     navigation.navigate('Posts');
     setPostData(initialPostData);
   };
