@@ -52,8 +52,8 @@ export default function CommentsScreen({ route }) {
             {
               newComment,
               name,
-              // avatar: avatar ? avatar : null,
-              avatar,
+              avatar: avatar ? avatar : null,
+              //   avatar,
               userId,
               createdAt,
             },
@@ -118,7 +118,7 @@ export default function CommentsScreen({ route }) {
                         textAlign: currentUser ? 'right' : 'left',
                       }}
                     >
-                      {currentUser ? 'Вы' : item.name}
+                      {currentUser ? 'You' : item.name}
                     </Text>
                     <Text style={styles.commentMessage}>{item.newComment}</Text>
                     <Text
@@ -144,7 +144,7 @@ export default function CommentsScreen({ route }) {
       >
         <TextInput
           style={styles.input}
-          placeholder="Комментировать..."
+          placeholder="Add a comment..."
           onFocus={() => setIsShowKeyboard(true)}
           value={newComment}
           onChangeText={setNewComment}

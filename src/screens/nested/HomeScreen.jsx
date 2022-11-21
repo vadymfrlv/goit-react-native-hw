@@ -9,7 +9,8 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import { EvilIcons } from '@expo/vector-icons';
+import { Octicons, EvilIcons } from '@expo/vector-icons';
+
 import db from '../../../firebase/config';
 
 const HomeScreen = ({ navigation }) => {
@@ -48,8 +49,8 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.avatarWrapper}
-        activeOpacity={0.8}
-        onPress={() => navigation.navigate('User')}
+        activeOpacity={0.7}
+        onPress={() => navigation.navigate('Profile')}
       >
         <View style={{ overflow: 'hidden', borderRadius: 16 }}>
           <ImageBackground
@@ -64,18 +65,18 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.userEmail}>{email}</Text>
         </View>
       </TouchableOpacity>
+
       <FlatList
         data={posts}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <View style={styles.postContainer}>
+          <View style={styles.postsContainer}>
             <TouchableOpacity
-              activeOpacity={0.8}
+              activeOpacity={0.7}
               onPress={() =>
                 navigation.navigate('Comments', {
                   postId: item.id,
                   photo: item.photo,
-                  description: item.description,
                   allComments: item.comments,
                 })
               }
@@ -84,48 +85,47 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity>
             <View style={styles.postImageInfoWrapper}>
               <Text style={styles.postImageTitle}>{item.description}</Text>
-              <Text style={styles.postImageAuthor}> Author: {item.name}</Text>
             </View>
+
             <View style={styles.postInfoContainer}>
               <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity
-                  style={{ ...styles.postInfoButton, marginRight: 24 }}
-                  activeOpacity={0.8}
+                  style={{ ...styles.postInfoBtn, marginRight: 25 }}
+                  activeOpacity={0.7}
                   onPress={() =>
                     navigation.navigate('Comments', {
                       postId: item.id,
                       photo: item.photo,
-                      description: item.description,
                       allComments: item.comments,
                     })
                   }
                 >
-                  <EvilIcons
-                    name="comment"
-                    size={32}
+                  <Octicons
+                    name="comment-discussion"
+                    size={24}
                     color={item.comments?.length ? '#FF6C00' : '#BDBDBD'}
                   />
                   <Text style={styles.postInfoText}>{item.comments?.length || 0}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.postInfoButton}
-                  activeOpacity={0.8}
+                  style={styles.postInfoBtn}
+                  activeOpacity={0.7}
                   onPress={() => createLike(item.id)}
                 >
-                  <EvilIcons name="like" size={36} color={item.likes ? '#FF6C00' : '#BDBDBD'} />
+                  <Octicons name="heart" size={24} color={item.likes ? '#FF6C00' : '#BDBDBD'} />
                   <Text style={styles.postInfoText}>{item.likes || 0}</Text>
                 </TouchableOpacity>
               </View>
               <TouchableOpacity
-                style={styles.postInfoButton}
-                activeOpacity={0.8}
+                style={styles.postInfoBtn}
+                activeOpacity={0.7}
                 onPress={() =>
                   navigation.navigate('Map', {
                     location: item.location,
                   })
                 }
               >
-                <EvilIcons name="location" size={32} color="#BDBDBD" />
+                <Octicons name="location" size={24} color="#BDBDBD" />
                 <Text style={styles.postInfoText}>{item.place}</Text>
               </TouchableOpacity>
             </View>
@@ -147,10 +147,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 16,
-    marginVertical: 16,
-    backgroundColor: 'rgba(0, 0, 0, 0.03)',
-    borderTopRightRadius: 16,
-    borderBottomRightRadius: 16,
+    marginVertical: 32,
+    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    borderRadius: 16,
   },
   avatar: {
     width: 60,
@@ -162,17 +161,16 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontFamily: 'Roboto-Bold',
-    fontSize: 13,
+    fontSize: 15,
     color: '#212121',
   },
   userEmail: {
     fontFamily: 'Roboto-Regular',
-    fontSize: 11,
+    fontSize: 12,
     color: '#212121',
   },
-  postContainer: {
+  postsContainer: {
     marginHorizontal: 16,
-    marginVertical: 16,
   },
   postImage: {
     height: 240,
@@ -188,24 +186,21 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Medium',
     fontSize: 16,
     color: '#212121',
-  },
-  postImageAuthor: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: 16,
-    color: '#BDBDBD',
+    marginBottom: 8,
   },
   postInfoContainer: {
-    marginTop: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 32,
   },
-  postInfoButton: {
+  postInfoBtn: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   postInfoText: {
+    marginLeft: 10,
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
-    color: '#212121',
+    color: '#656565',
   },
 });

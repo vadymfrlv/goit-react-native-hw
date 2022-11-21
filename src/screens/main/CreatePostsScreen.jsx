@@ -31,9 +31,6 @@ const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [location, setLocation] = useState(null);
   const [type, setType] = useState(CameraType.back);
-  // const [photo, setPhoto] = useState(null);
-  // const [description, setDescription] = useState('');
-  // const [place, setPlace] = useState(null);
   const [isPostDataReady, setIsPostDataReady] = useState(true);
   const [isDisableTrash, setIsDisableTrash] = useState(true);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
