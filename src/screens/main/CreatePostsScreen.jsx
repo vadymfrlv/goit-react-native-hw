@@ -300,7 +300,6 @@ const styles = StyleSheet.create({
     width: 80,
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginBottom: 30,
     borderRadius: 20,
     backgroundColor: '#F6F6F6',
   },

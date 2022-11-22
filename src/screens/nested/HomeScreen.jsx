@@ -9,7 +9,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import { Octicons, EvilIcons } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
 
 import db from '../../../firebase/config';
 

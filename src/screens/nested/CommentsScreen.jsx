@@ -15,22 +15,17 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
+
 import db from '../../../firebase/config';
 
-export default function CommentsScreen({ route }) {
+const CommentsScreen = ({ route }) => {
+  const { userId, name, avatar } = useSelector(state => state.auth);
   const { postId, photo, allComments } = route.params;
 
   const [comments, setComments] = useState(allComments || []);
   const [newComment, setNewComment] = useState('');
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-
-  const { userId, name, avatar } = useSelector(state => state.auth);
-
-  const keyboardHide = () => {
-    setIsShowKeyboard(false);
-    Keyboard.dismiss();
-  };
 
   const createComment = async () => {
     const createdAt = new Date().toLocaleString('en', {
@@ -53,7 +48,6 @@ export default function CommentsScreen({ route }) {
               newComment,
               name,
               avatar: avatar ? avatar : null,
-              //   avatar,
               userId,
               createdAt,
             },
@@ -67,8 +61,16 @@ export default function CommentsScreen({ route }) {
     setNewComment('');
   };
 
+  const keyboardHide = () => {
+    Keyboard.dismiss();
+    setIsShowKeyboard(false);
+  };
+
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' && 'padding'}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+    >
       <TouchableWithoutFeedback onPress={keyboardHide}>
         <View style={styles.postImageContainer}>
           <Image style={styles.postImage} source={{ uri: photo }} />
@@ -78,59 +80,61 @@ export default function CommentsScreen({ route }) {
         <SafeAreaView style={styles.commentsListContainer}>
           <FlatList
             data={comments}
+            showsVerticalScrollIndicator={false}
             keyExtractor={(item, idx) => idx.toString()}
             renderItem={({ item }) => {
               const currentUser = userId === item.userId;
               return (
-                <View
-                  style={{
-                    ...styles.commentContainer,
-                    flexDirection: currentUser ? 'row-reverse' : 'row',
-                  }}
-                >
+                <TouchableWithoutFeedback onPress={keyboardHide}>
                   <View
                     style={{
-                      ...styles.avatarContainer,
-                      marginRight: currentUser ? 0 : 10,
-                      marginLeft: currentUser ? 10 : 0,
+                      ...styles.commentContainer,
+                      flexDirection: currentUser ? 'row-reverse' : 'row',
                     }}
                   >
-                    <ImageBackground
-                      style={styles.avatar}
-                      source={require('../../../assets/images/user/defaultAvatar.jpg')}
-                    >
-                      {item.avatar && <Image style={styles.avatar} source={{ uri: item.avatar }} />}
-                    </ImageBackground>
-                  </View>
-                  <View
-                    style={{
-                      ...styles.comment,
-                      backgroundColor: currentUser
-                        ? 'rgba(0, 0, 255, 0.03)'
-                        : 'rgba(0, 0, 0, 0.03)',
-                      borderTopLeftRadius: currentUser ? 20 : 0,
-                      borderTopRightRadius: currentUser ? 0 : 20,
-                    }}
-                  >
-                    <Text
+                    <View
                       style={{
-                        ...styles.commentAuthor,
-                        textAlign: currentUser ? 'right' : 'left',
+                        ...styles.avatarContainer,
+                        marginRight: currentUser ? 0 : 10,
+                        marginLeft: currentUser ? 10 : 0,
                       }}
                     >
-                      {currentUser ? 'You' : item.name}
-                    </Text>
-                    <Text style={styles.commentMessage}>{item.newComment}</Text>
-                    <Text
+                      <ImageBackground
+                        style={styles.avatar}
+                        source={require('../../../assets/images/user/defaultAvatar.jpg')}
+                      >
+                        {item.avatar && (
+                          <Image style={styles.avatar} source={{ uri: item.avatar }} />
+                        )}
+                      </ImageBackground>
+                    </View>
+                    <View
                       style={{
-                        ...styles.commentDate,
-                        textAlign: currentUser ? 'left' : 'right',
+                        ...styles.comment,
+                        borderTopLeftRadius: currentUser ? 20 : 0,
+                        borderTopRightRadius: currentUser ? 0 : 20,
                       }}
                     >
-                      {item.createdAt}
-                    </Text>
+                      <Text
+                        style={{
+                          ...styles.commentAuthor,
+                          textAlign: currentUser ? 'right' : 'left',
+                        }}
+                      >
+                        {currentUser ? 'You' : item.name}
+                      </Text>
+                      <Text style={styles.commentMessage}>{item.newComment}</Text>
+                      <Text
+                        style={{
+                          ...styles.commentDate,
+                          textAlign: currentUser ? 'left' : 'right',
+                        }}
+                      >
+                        {item.createdAt}
+                      </Text>
+                    </View>
                   </View>
-                </View>
+                </TouchableWithoutFeedback>
               );
             }}
           />
@@ -139,7 +143,7 @@ export default function CommentsScreen({ route }) {
       <View
         style={{
           ...styles.inputWrapper,
-          marginBottom: isShowKeyboard ? 100 : 10,
+          marginBottom: isShowKeyboard ? 100 : 20,
         }}
       >
         <TextInput
@@ -151,15 +155,17 @@ export default function CommentsScreen({ route }) {
         />
         <TouchableOpacity
           style={styles.addCommentButton}
-          activeOpacity={0.8}
+          activeOpacity={0.7}
           onPress={createComment}
         >
-          <AntDesign name="arrowup" size={20} color="#FFFFFF" />
+          <Octicons name="arrow-up" size={30} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
-}
+};
+
+export default CommentsScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -176,19 +182,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     resizeMode: 'cover',
   },
-  postImageTitle: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: 16,
-    color: '#212121',
-  },
   commentsListContainer: {
     flex: 1,
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 16,
+    marginBottom: 16,
   },
   commentContainer: {
     marginHorizontal: 16,
-    marginVertical: 8,
+    marginBottom: 16,
   },
   avatarContainer: {
     width: 50,
@@ -203,19 +204,21 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   comment: {
-    padding: 16,
+    padding: 14,
+    maxWidth: 270,
     borderRadius: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.04)',
   },
   commentAuthor: {
-    marginBottom: 8,
+    marginBottom: 5,
     fontFamily: 'Roboto-Medium',
-    fontSize: 13,
-    color: '#212121',
+    fontSize: 11,
+    color: '#656565',
   },
   commentMessage: {
-    marginBottom: 8,
+    marginBottom: 5,
     fontFamily: 'Roboto-Regular',
-    fontSize: 13,
+    fontSize: 14,
     color: '#212121',
   },
   commentDate: {
@@ -230,8 +233,8 @@ const styles = StyleSheet.create({
   input: {
     justifyContent: 'center',
     height: 50,
-    paddingLeft: 16,
-    paddingRight: 60,
+    paddingLeft: 14,
+    paddingRight: 55,
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     color: '#212121',
@@ -242,7 +245,7 @@ const styles = StyleSheet.create({
   },
   addCommentButton: {
     position: 'absolute',
-    right: 10,
+    right: 6,
     bottom: 5,
     justifyContent: 'center',
     alignItems: 'center',

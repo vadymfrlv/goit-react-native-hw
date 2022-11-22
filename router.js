@@ -9,6 +9,9 @@ import LoginScreen from './src/screens/auth/LoginScreen';
 import PostsScreen from './src/screens/main/PostsScreen';
 import CreatePostsScreen from './src/screens/main/CreatePostsScreen';
 import ProfileScreen from './src/screens/main/ProfileScreen';
+import CommentsScreen from './src/screens/nested/CommentsScreen';
+
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -42,17 +45,16 @@ const useRoute = isAuth => {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarActiveBackgroundColor: '#FF6C00',
+        tabBarStyle: {
+          height: 80,
+          paddingTop: 9,
+        },
         headerShown: true,
         headerLeftContainerStyle: {
           paddingLeft: 16,
         },
         headerRightContainerStyle: {
           paddingRight: 16,
-        },
-        tabBarStyle: {
-          height: 80,
-          paddingTop: 9,
-          borderTopWidth: 1,
         },
         headerStyle: {
           borderBottomWidth: 1,
@@ -74,12 +76,19 @@ const useRoute = isAuth => {
       <MainTab.Screen
         name="Posts"
         component={PostsScreen}
-        options={{
+        options={({ route }) => ({
+          tabBarStyle: (route => {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+            if (routeName === 'Comments' || routeName === 'Map') {
+              return { display: 'none' };
+            }
+            return { height: 80, paddingTop: 9 };
+          })(route),
           headerShown: false,
           tabBarIcon: ({ focused, size }) => (
             <Octicons name="apps" size={size} color={focused ? '#fff' : '#8F8F8F'} />
           ),
-        }}
+        })}
       />
       <MainTab.Screen
         name="Create"
@@ -103,12 +112,19 @@ const useRoute = isAuth => {
       <MainTab.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{
+        options={({ route }) => ({
+          tabBarStyle: (route => {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+            if (routeName === 'Comments' || routeName === 'Map') {
+              return { display: 'none' };
+            }
+            return { height: 80, paddingTop: 9 };
+          })(route),
           headerShown: false,
           tabBarIcon: ({ focused, size }) => (
             <Octicons name="person" size={size} color={focused ? '#fff' : '#8F8F8F'} />
           ),
-        }}
+        })}
       />
     </MainTab.Navigator>
   );
