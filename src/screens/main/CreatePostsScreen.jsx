@@ -133,10 +133,10 @@ const CreatePostsScreen = ({ navigation }) => {
             </View>
           ) : (
             <Camera style={styles.camera} type={type} flashMode="auto" ref={ref => setCamera(ref)}>
-              <TouchableOpacity style={styles.cameraTypeButton} onPress={toggleCameraType}>
+              <TouchableOpacity style={styles.cameraTypeBtn} onPress={toggleCameraType}>
                 <Octicons name="sync" size={30} color="#F6F6F6" />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.cameraSnapButton} onPress={takePhoto}>
+              <TouchableOpacity style={styles.cameraSnapBtn} onPress={takePhoto}>
                 <Octicons name="issue-opened" size={50} color="#F6F6F6" />
               </TouchableOpacity>
             </Camera>
@@ -237,13 +237,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden',
   },
-  cameraTypeButton: {
+  cameraTypeBtn: {
     position: 'absolute',
     top: 10,
     right: 13,
     opacity: 0.7,
   },
-  cameraSnapButton: {
+  cameraSnapBtn: {
     marginBottom: 20,
     opacity: 0.7,
   },

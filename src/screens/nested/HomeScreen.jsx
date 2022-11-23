@@ -16,6 +16,9 @@ import db from '../../../firebase/config';
 const HomeScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
 
+  const [userLikes, setUserLikes] = useState('no');
+  const [likeCount, setLikeCount] = useState(0);
+
   const { name, email, avatar } = useSelector(state => state.auth);
 
   useEffect(() => {
@@ -35,6 +38,18 @@ const HomeScreen = ({ navigation }) => {
       );
   };
 
+  const likeUnlike = async postId => {
+    if (userLikes === 'no') {
+      setUserLikes('yes');
+      setLikeCount(+1);
+      createLike(postId);
+    } else {
+      setUserLikes('no');
+      setLikeCount(0 ? 0 : -1);
+      createLike(postId);
+    }
+  };
+
   const createLike = async postId => {
     const data = await db.firestore().collection('posts').doc(postId).get();
     const { likes } = data.data();
@@ -42,7 +57,7 @@ const HomeScreen = ({ navigation }) => {
       .firestore()
       .collection('posts')
       .doc(postId)
-      .update({ likes: (likes ? likes : 0) + 1 });
+      .update({ likes: (likes ? likes : 0) + likeCount });
   };
 
   return (
@@ -110,7 +125,8 @@ const HomeScreen = ({ navigation }) => {
                 <TouchableOpacity
                   style={styles.postInfoBtn}
                   activeOpacity={0.7}
-                  onPress={() => createLike(item.id)}
+                  // onPress={() => createLike(item.id)}
+                  onPress={() => likeUnlike(item.id)}
                 >
                   <Octicons name="heart" size={24} color={item.likes ? '#FF6C00' : '#BDBDBD'} />
                   <Text style={styles.postInfoText}>{item.likes || 0}</Text>

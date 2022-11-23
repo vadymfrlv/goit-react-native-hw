@@ -56,10 +56,6 @@ const useRoute = isAuth => {
         headerRightContainerStyle: {
           paddingRight: 16,
         },
-        headerStyle: {
-          borderBottomWidth: 1,
-          borderColor: '#8F8F8F',
-        },
         headerTitleStyle: {
           color: '#212121',
           fontFamily: 'Roboto-Medium',

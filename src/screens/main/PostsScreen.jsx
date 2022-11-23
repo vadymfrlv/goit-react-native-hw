@@ -23,7 +23,7 @@ const PostsScreen = () => {
         options={{
           title: 'Posts',
           headerRight: () => (
-            <TouchableOpacity style={{ marginRight: 10 }} onPress={logout}>
+            <TouchableOpacity style={{ marginRight: 16 }} onPress={logout}>
               <Octicons name="sign-out" size={24} color="#8F8F8F" />
             </TouchableOpacity>
           ),

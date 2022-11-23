@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   StyleSheet,
@@ -153,11 +153,7 @@ const CommentsScreen = ({ route }) => {
           value={newComment}
           onChangeText={setNewComment}
         />
-        <TouchableOpacity
-          style={styles.addCommentButton}
-          activeOpacity={0.7}
-          onPress={createComment}
-        >
+        <TouchableOpacity style={styles.addCommentBtn} activeOpacity={0.7} onPress={createComment}>
           <Octicons name="arrow-up" size={30} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
@@ -243,7 +239,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E8E8E8',
   },
-  addCommentButton: {
+  addCommentBtn: {
     position: 'absolute',
     right: 6,
     bottom: 5,

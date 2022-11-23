@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   avatarBtn: {
     position: 'absolute',
     bottom: 10,
-    right: -16,
+    right: -15,
     justifyContent: 'center',
     alignItems: 'center',
     width: 30,
