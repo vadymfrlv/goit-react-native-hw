@@ -12,8 +12,8 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Octicons } from '@expo/vector-icons';
 import { Camera, CameraType } from 'expo-camera';
+import { Octicons } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 

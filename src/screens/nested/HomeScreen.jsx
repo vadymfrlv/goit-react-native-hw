@@ -15,7 +15,6 @@ import db from '../../../firebase/config';
 
 const HomeScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
-
   const [userLikes, setUserLikes] = useState('no');
   const [likeCount, setLikeCount] = useState(0);
 
@@ -125,7 +124,6 @@ const HomeScreen = ({ navigation }) => {
                 <TouchableOpacity
                   style={styles.postInfoBtn}
                   activeOpacity={0.7}
-                  // onPress={() => createLike(item.id)}
                   onPress={() => likeUnlike(item.id)}
                 >
                   <Octicons name="heart" size={24} color={item.likes ? '#FF6C00' : '#BDBDBD'} />

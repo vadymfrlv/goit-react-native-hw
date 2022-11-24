@@ -21,3 +21,7 @@ the button "post" is pressed, post is going to be published and the user will fl
 posts" screen. The user can clear all fields and also delete the taken photo using the "delete all"
 button. The user can also exit from "home/all posts" screen to "home/all posts" by pressing arrow
 button on the top but saving work on the new post.
+
+When switching to the"user profile" screen, the user sees only his/her posts, can delete them, and
+also get to the "comments" or "map" screen, similar to the "home/all posts" screen. Also, on this
+screen, the user can update their avatar and log out of the account.

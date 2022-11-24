@@ -8,7 +8,7 @@ import MapScreen from '../nested/MapScreen';
 
 const NestedStack = createStackNavigator();
 
-export default function ProfileScreen() {
+const ProfileScreen = () => {
   return (
     <NestedStack.Navigator>
       <NestedStack.Screen
@@ -44,4 +44,6 @@ export default function ProfileScreen() {
       />
     </NestedStack.Navigator>
   );
-}
+};
+
+export default ProfileScreen;

@@ -9,15 +9,16 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
 import { Octicons, MaterialIcons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+
 import db from '../../../firebase/config';
 import { authAvatarChangeUser, authLogoutUser } from '../../../redux/auth/authOperations';
 
 export default function UserScreen({ navigation }) {
   const { userId, name, avatar } = useSelector(state => state.auth);
-  const [posts, setPosts] = useState([]);
 
+  const [posts, setPosts] = useState([]);
   const [userLikes, setUserLikes] = useState('no');
   const [likeCount, setLikeCount] = useState(0);
 
@@ -185,7 +186,6 @@ export default function UserScreen({ navigation }) {
                     onPress={() => likeUnlike(item.id)}
                   >
                     <Octicons name="heart" size={24} color={item.likes ? '#FF6C00' : '#BDBDBD'} />
-
                     <Text style={styles.postInfoText}>{item.likes || 0}</Text>
                   </TouchableOpacity>
                 </View>
@@ -199,7 +199,6 @@ export default function UserScreen({ navigation }) {
                   }
                 >
                   <Octicons name="location" size={24} color="#BDBDBD" />
-
                   <Text style={styles.postInfoText}>{item.place}</Text>
                 </TouchableOpacity>
               </View>

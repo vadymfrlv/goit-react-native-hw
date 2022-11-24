@@ -1,23 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
+import { View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { Provider } from 'react-redux';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-// import { AppLoading } from 'expo';
-import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
+import { LogBox } from 'react-native';
 
 import { store } from './redux/store';
 import Main from './components/Main';
 
 SplashScreen.preventAutoHideAsync();
-
-// const loadApplication = async () => {
-//   await Font.loadAsync({
-//     'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
-//     'Roboto-Medium': require('./assets/fonts/Roboto-Medium.ttf'),
-//     'Roboto-Bold': require('./assets/fonts/Roboto-Bold.ttf'),
-//   });
-// };
 
 export default function App() {
   const [isAppReady, setIsAppReady] = useState(false);
@@ -49,15 +41,7 @@ export default function App() {
     return null;
   }
 
-  // if (!isReady) {
-  //   return (
-  //     <AppLoading
-  //       startAsync={loadApplication}
-  //       onFinish={() => setIsReady(true)}
-  //       onError={console.warn}
-  //     />
-  //   );
-  // }
+  LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core']);
 
   return (
     <Provider store={store}>
