@@ -1,3 +1,5 @@
+![GitHub actions settings](./assets/run/expoGo.png)
+
 ### This app is a social network for photos with the ability to leave comments and put likes. The app was tested on iOS devices with a screen size of 6.46 inches❗️ Firebase was used for this app to login/sign up, as well as to store comments, photos etc⚡️
 
 When the application starts, custom fonts are loaded. A user gets to the "login" screen but if user
