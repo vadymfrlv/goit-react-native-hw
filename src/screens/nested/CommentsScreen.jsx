@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import { Octicons } from '@expo/vector-icons';
 
-import db from '../../../firebase/config';
+import db from '../../firebase/config';
 
 const CommentsScreen = ({ route }) => {
   const { userId, name, avatar } = useSelector(state => state.auth);

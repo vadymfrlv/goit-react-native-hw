@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Octicons } from '@expo/vector-icons';
 
-import db from '../../../firebase/config';
+import db from '../../firebase/config';
 
 const HomeScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);

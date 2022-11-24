@@ -9,7 +9,6 @@ import LoginScreen from './src/screens/auth/LoginScreen';
 import PostsScreen from './src/screens/main/PostsScreen';
 import CreatePostsScreen from './src/screens/main/CreatePostsScreen';
 import ProfileScreen from './src/screens/main/ProfileScreen';
-import CommentsScreen from './src/screens/nested/CommentsScreen';
 
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 

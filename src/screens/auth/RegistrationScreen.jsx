@@ -16,8 +16,8 @@ import {
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
-import db from '../../../firebase/config';
-import { authSignUpUser, authAvatarChangeUser } from '../../../redux/auth/authOperations';
+import db from '../../firebase/config';
+import { authSignUpUser, authAvatarChangeUser } from '../../redux/auth/authOperations';
 
 const initialFormData = {
   name: '',

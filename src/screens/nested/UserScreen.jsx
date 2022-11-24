@@ -12,8 +12,8 @@ import {
 import { Octicons, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
-import db from '../../../firebase/config';
-import { authAvatarChangeUser, authLogoutUser } from '../../../redux/auth/authOperations';
+import db from '../../firebase/config';
+import { authAvatarChangeUser, authLogoutUser } from '../../redux/auth/authOperations';
 
 export default function UserScreen({ navigation }) {
   const { userId, name, avatar } = useSelector(state => state.auth);

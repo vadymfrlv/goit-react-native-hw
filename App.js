@@ -6,8 +6,8 @@ import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { LogBox } from 'react-native';
 
-import { store } from './redux/store';
-import Main from './components/Main';
+import { store } from './src/redux/store';
+import Main from './src/components/Main';
 
 SplashScreen.preventAutoHideAsync();
 

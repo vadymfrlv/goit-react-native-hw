@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Octicons } from '@expo/vector-icons';
 
-import { authLogoutUser } from '../../../redux/auth/authOperations';
+import { authLogoutUser } from '../../redux/auth/authOperations';
 
 import HomeScreen from '../nested/HomeScreen';
 import CommentsScreen from '../nested/CommentsScreen';

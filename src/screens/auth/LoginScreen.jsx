@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { authLogInUser } from '../../../redux/auth/authOperations';
+import { authLogInUser } from '../../redux/auth/authOperations';
 
 const initialFormData = {
   email: '',

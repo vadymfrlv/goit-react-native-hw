@@ -17,7 +17,7 @@ import { Octicons } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 
-import db from '../../../firebase/config';
+import db from '../../firebase/config';
 
 const initialPostData = {
   photo: '',
