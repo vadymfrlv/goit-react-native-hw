@@ -12,6 +12,8 @@ import Main from './src/components/Main';
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core']);
+
   const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
@@ -40,8 +42,6 @@ export default function App() {
   if (!isAppReady) {
     return null;
   }
-
-  LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core']);
 
   return (
     <Provider store={store}>
