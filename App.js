@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { LogBox } from 'react-native';
-
 import { store } from './src/redux/store';
 import Main from './src/components/Main';
 
